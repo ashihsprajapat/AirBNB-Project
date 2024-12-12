@@ -73,7 +73,9 @@ const option = {
     
 };
 
-
+app.get("/",(req,res)=>{
+    res.redirect("/listing");
+})
 
 
 app.use(session(option));
