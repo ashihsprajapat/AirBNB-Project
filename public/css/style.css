@@ -1,10 +1,17 @@
-body{
-    background-color: pink ;
+body {
+    background-color: pink;
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
     min-height: 100vh;
 }
-.conatiner{
-    
+
+.conatiner {
+
     flex: 1;
+}
+
+#map {
+    height: 90vh;
+    width: 80vh;
+    background-color: gray;
 }

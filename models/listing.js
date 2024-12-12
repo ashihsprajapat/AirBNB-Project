@@ -1,27 +1,36 @@
 const mongoose=require("mongoose");
-const schema=mongoose.Schema;
-const  defURL="https://th.bing.com/th/id/OIP.6sAjFb-W5NRiCsEtlGS5dQAAAA?rs=1&pid=ImgDetMain";
-
-const listingSchema= new schema({
+const {Schema}=mongoose;
+const Review=require("./review.js");
+const User=require("./user.js");
+const listingSchema= new Schema({
     title:{
         type:String,
         
     },
     description:String,
     image:{
-        
-        type:String,
-        default:defURL,
-        set:(v)=>
-            v===""?defURL:v,
-    
-    
-       
+        url:String,
+        filename:String,
     },
     price:Number,
     location:String,
-    country:String
+    country:String,
+    reviews:[
+        {
+            type:Schema.Types.ObjectId,
+            ref:"Review",
+        }
+    ],
+    owner:{
+        type:Schema.Types.ObjectId,
+        ref:"User",
+    }
 })
 
+listingSchema.post("findOneAndDelete",async(listing)=>{
+    if(listing){
+        await Review.deleteMany({_id:{$in :listing.reviews}});
+    }
+})
 const Listing=mongoose.model("Listing",listingSchema);
 module.exports=Listing;
